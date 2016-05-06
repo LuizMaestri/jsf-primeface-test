@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+<h:outputScript name="js/jquery.min.js"/>
+<h:outputScript name="third-party/materialadmin/assets/js/libs/bootstrap/bootstrap.min.js"/>
+<h:outputScript name="js/filterTable.min.js"/>
+<ui:composition template="/index.xhtml">
+    <ui:define name="content">
+        <div class="row page-title" style="margin-top: 1%">
+            <div class="col-md-offset-1">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1 class="text-primary">
+                                Chamados
+                                <small>
+                                    (<h:outputText value="#{fn:length(CallBean.calls)}" />)
+                                </small>
+                            </h1>
+                    </div>
+                    <div class="col-md-offset-3 actions pull-left">
+                        <h:form>
+                            <p:commandButton styleClass="btn btn-icon-toggle ink-reaction" icon="md-refresh" value="" action="#{CallBean.back}"/>
+                            <p:commandButton id="add" styleClass="btn ink-reaction btn-floating-action btn-lg btn-accent" icon="md-add" action="#{CallBean.create}" value="" />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-offset-1">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsible">
+                                    <h:form>
+                                        <p:dataTable tableStyleClass="table paginated table-hover no-margin" var="call" value="#{CallBean.calls}"  rows="1"
+                                                     paginator="true"
+                                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     rowsPerPageTemplate="1,5,10">
+                                            <f:facet name="header">
+                                                <p:outputPanel styleClass="pull-right">
+                                                    <p:inputText styleClass="form-control search" id="globalFilter" style="width:150px"  placeholder="Pesquise Id"/>
+                                                </p:outputPanel>
+                                            </f:facet>
+                                            <p:column headerText="Id">
+                                                <h:outputText value="#{call.id}" />
+                                            </p:column>
+                                            <p:column headerText="Chamado">
+                                                <h:outputText value="#{call.name}" />
+                                            </p:column>
+                                            <p:column styleClass="hidden-xs" headerText="Abertura">
+                                                <h:outputText styleClass="hidden-xs" value="#{call.open}">
+                                                    <f:convertDateTime locale="pt,BR" dateStyle="long" pattern="dd/MM/yyyy HH:mm" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column styleClass="hidden-xs" headerText="Prioridade">
+                                                <h:outputText styleClass="label label-warning" rendered="#{call.priority.label == 'Alta'}" value="#{call.priority.label}"/>
+                                                <h:outputText styleClass="label label-primary" rendered="#{call.priority.label == 'Média'}" value="#{call.priority.label}"/>
+                                                <h:outputText styleClass="label label-success" rendered="#{call.priority.label == 'Baixa'}" value="#{call.priority.label}"/>
+                                                <h:outputText styleClass="label label-danger" rendered="#{call.priority.label == 'Imediato/urgente'}" value="#{call.priority.label}"/>
+                                            </p:column>
+                                            <p:column styleClass="hidden-xs" headerText="Status">
+                                                <h:outputText styleClass="label label-warning" rendered="#{call.status.label == 'Aguardando'}" value="#{call.status.label}"/>
+                                                <h:outputText styleClass="label label-primary" rendered="#{call.status.label == 'Em andamento'}" value="#{call.status.label}"/>
+                                                <h:outputText styleClass="label label-success" rendered="#{call.status.label == 'Fechado'}" value="#{call.status.label}"/>
+                                                <h:outputText styleClass="label label-danger" rendered="#{call.status.label == 'Cancelado'}" value="#{call.status.label}"/>
+                                            </p:column>
+                                            <p:column headerText="Detalhes">
+                                                    <p:commandButton styleClass="btn ink-reaction btn-floating-action btn-xs btn-primary" value="" icon="md-description" action="#{CallBean.details(call.id)}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+
+</html>

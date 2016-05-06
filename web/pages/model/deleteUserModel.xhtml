@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<div id="dialogDelete" class="card dialog" style="z-index: 999">
+    <h:form styleClass="form">
+        <div class="card-head style-gray">
+            Você deseja excluir #{UserBean.detail.name}?
+        </div>
+        <div class="card-body">
+            <span class="_danger">
+                Esta ação não poderá ser desfeita.
+            </span>
+        </div>
+        <div class="card-actionbar">
+            <div class="card-actionbar-row">
+                <button type="button" class="btn btn-flat btn-primary ink-reaction close" value="Voltar"/>
+                <h:commandButton styleClass="btn btn-flat btn-primary ink-reaction" value="Excluir" action="#{UserBean.delete}"/>
+            </div>
+        </div>
+    </h:form>
+</div>
+</html>

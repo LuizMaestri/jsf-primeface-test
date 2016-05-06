@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:outputScript name="js/jquery.min.js"/>
+<h:outputScript name="js/dropmenu.min.js"/>
+<head>
+    <link href="/resources/third-party/materialadmin/assets/css/theme-1/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/third-party/materialadmin/assets/css/theme-1/materialadmin.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/third-party/materialadmin/assets/css/theme-1/libs/wizard/wizard.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/third-party/materialadmin/assets/css/theme-1/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/third-party/materialadmin/assets/css/theme-1/material-design-iconic-font.min.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/third-party/materialadmin/assets/css/theme-1/libs/toastr/toastr.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/third-party/materialadmin/assets/css/theme-1/libs/bootstrap-datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/css/layout.css" rel="stylesheet" type="text/css" />
+    <title>Sistema de Chamados</title>
+</head>
+
+<h:body class="menubar-hoverable header-fixed menubar-pin menubar-visible">
+    <ui:fragment rendered="#{UserBean.logged.auth}">
+        <div id="header">
+            <div class="headerbar">
+                <div class="headerbar-left">
+                    <ul class="header-nav header-nav-options">
+                        <li class="header-nav-brand">
+                            <div class="brand-holder">
+                                <a>
+                                    <span class="text-lg text-bold text-primary">NeoWay</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="btn btn-icon-toggle menubar-toggle" href="javascript:void(0);">
+                                <span class="fa fa-bars" style="font-style: italic;"> </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="headerbar-right">
+                    <ul class="header-nav header-nav-profile">
+                        <li class="dropdown">
+                            <a id="menu" class="dropdown-toggle ink-reaction" href="#">
+                                <p:graphicImage value="/resources/images/letters/#{UserBean.logged.name.charAt(0)}.png" />
+                                <span class="profile-info capitalize">
+                                        #{UserBean.logged.name}
+                                        <br/>
+                                        <span style="font-size: x-small;"> #{UserBean.logged.admin? "Admin": ""}</span>
+                                </span>
+                            </a>
+                            <h:form>
+                                <div class="card no-margin no-padding dropdown-menu dm">
+                                    <div class="card-body no-margin no-padding">
+                                        <ul class="animation-dock" style="list-style-type: none">
+                                            <!--<li>-->
+                                                <!--<p:commandButton styleClass=" btn- btn-flat" icon="fa fa-fw fa-lock" value="Alterar senha"/>-->
+                                            <!--</li>-->
+                                            <li style="width: 100%">
+                                                <div class="pull-left" style="width: 100%">
+                                                    <p:commandButton styleClass=" btn- btn-flat text-danger text-left" style="width: 100%" icon="fa fa-fw fa-lock" action="#{UserBean.logout}"/>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </ui:fragment>
+    <div id="base">
+        <div class="offcanvas"></div>
+        <div id="content">
+            <ui:insert name="content"> </ui:insert>
+        </div>
+        <ui:fragment rendered="#{UserBean.logged.auth}">
+            <div id="menubar">
+                <div class="menubar-fixed-panel">
+                    <div>
+                        <a class="btn btn-icon-toggle btn-default menubar-toggle" href="javascript:void(0);">
+                            <span> </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menubar-scroll-panel">
+                    <h:form>
+                        <ul class="gui-controls" id="main-menu">
+                            <li class="animate">
+                                <p:commandButton style="width: 100%;" styleClass="tile btn btn-flat ink-reaction" icon="md-assignment" action="#{CallBean.back}" value=" Chamados"/>
+                            </li>
+                            <ui:fragment rendered="#{UserBean.logged.admin}">
+                            <li class="animate">
+                                <p:commandButton  style="width: 100%;" styleClass="tile btn btn-flat ink-reaction" icon="md-people" action="#{UserBean.back}" value=" Usuários"/>
+                            </li>
+                            </ui:fragment>
+                        </ul>
+                    </h:form>
+
+                    <div class="menubar-foot-panel">
+                        <span class="no-linebreak hidden-folded text-centersm-font">
+                                <span class="opacity-75">2016 &copy;</span>
+                        <a href="http://www.neoway.com.br" target="_blank">
+                            <strong>NeoWay</strong>
+                        </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </ui:fragment>
+        <div class="offcanvas"></div>
+
+    </div>
+</h:body>
+
+</html>

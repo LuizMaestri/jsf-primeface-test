@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/index.xhtml">
+    <ui:define name="content">
+        <div class="row" style="margin-top: 5%;">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 first-card">
+
+                <div class="card">
+                    <div class="card-head style-primary">
+                        <header>
+                            Editar <h:outputLabel value="#{UserBean.detail.name}"/>
+                        </header>
+
+                        <div class="tools pull-left">
+                            <h:form>
+                                <p:commandButton styleClass="btn ink-reaction btn-icon-toggle" icon="md md-close" value="" action="#{UserBean.details(UserBean.edit.id)}"/>
+                            </h:form>
+                        </div>
+                    </div>
+                    <h:form styleClass="form">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <h:inputText styleClass="form-control" id="name" value="#{UserBean.newUser.name}" required="true" requiredMessage="Campo Obrigatório"/>
+                                <label for="name">Nome*</label>
+                            </div>
+                            <div class="form-group">
+                                <h:inputText styleClass="form-control" id="login" value="#{UserBean.newUser.login}" required="true" requiredMessage="Campo Obrigatório"/>
+                                <label for="login">Login*</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h:inputSecret styleClass="form-control" id="pass" value="#{UserBean.newUser.password}" required="true" requiredMessage="Campo Obrigatório"/>
+                                        <label for="pass">Senha*</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h:inputSecret styleClass="form-control" id="passCheck" value="#{UserBean.password}" required="true" requiredMessage="Campo Obrigatório"/>
+                                        <label for="passCheck">Confirme senha*</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <p:selectBooleanCheckbox value="#{UserBean.newUser.admin}" />
+                                    <h:outputLabel value="Admin"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actionbar">
+                            <div class="card-actionbar-row">
+                                <h:commandButton styleClass="btn btn-flat btn-primary ink-reaction" style="margin-right:10px;" value="Voltar" action="#{UserBean.details(UserBean.edit.id)}"/>
+                                <h:commandButton styleClass="btn btn-flat btn-primary ink-reaction" style="margin-right:10px;" value="Criar" action="#{UserBean.save(true)}"/>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+                <em>Preencha os dados do formulário</em>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

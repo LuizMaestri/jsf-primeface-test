@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui" >
+<h:outputScript name="js/jquery.min.js"/>
+<h:outputScript name="third-party/jquery-ui-1.11.4.custom/jquery-ui.min.js"/>
+<h:outputStylesheet name="third-party/jquery-ui-1.11.4.custom/jquery-ui.min.css"/>
+<h:outputScript name="js/dialog.min.js"/>
+<ui:composition template="/index.xhtml">
+    <ui:define name="content">
+        <div class="row" style="margin-top: 5%;">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 first-card">
+                <h:form styleClass="form">
+
+                    <div class="card">
+                        <div class="card-head style-primary">
+
+                            <header>
+                                Chamado <h:outputLabel value="#{CallBean.detail.name}"/>
+                            </header>
+                            <div class="tools pull-left">
+                                <p:commandButton styleClass="btn ink-reaction btn-icon-toggle" icon="md md-close" value="" action="#{CallBean.back}"/>
+                            </div>
+                            <div class="tools pull-right no-margin">
+                                <button class="btn btn-floating-action btn-danger" type="button" id="delete">
+                                    <i class="md-delete"/>
+                                </button>
+                                <p:commandButton styleClass="btn btn-floating-action btn-accent" icon="md-edit" action="#{CallBean.edition}" value="" rendered="#{CallBean.detail.requestUser.id == UserBean.logged.id and CallBean.detail.status.label == 'Aguardando'}"/>
+                                <p:commandButton styleClass="btn btn-floating-action btn-default" icon="md-assignment" action="#{CallBean.assignment(UserBean.logged)}" value="" rendered="#{CallBean.detail.status.label == 'Aguardando'}"/>
+                                <p:commandButton styleClass="btn btn-floating-action btn-default" icon="md-assignment" action="#{CallBean.unassigned}" value="" rendered="#{CallBean.detail.status.label == 'Em andamento'}"/>
+                                <ui:fragment rendered="#{CallBean.detail.status.label == 'Em andamento' and CallBean.detail.requestUser.id == UserBean.logged.id}">
+                                    <button class="btn btn-floating-action btn-success" type="button" id="finish">
+                                        <i class="md-assignment-turned-in"/>
+                                    </button>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{['Em andamento', 'Aguardando'].contains(CallBean.detail.status.label)}">
+                                    <button class="btn btn-floating-action btn-warning" type="button" id="cancel">
+                                        <i class="fa fa-ban"/>
+                                    </button>
+                                </ui:fragment>
+                                <p:commandButton styleClass="btn btn-floating-action btn-default" icon="md-assignment" action="#{CallBean.reopen}" value="" rendered="#{['Fechado', 'Cancelado'].contains(CallBean.detail.status.label)}"/>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list">
+                                <li>
+                                    <h3>
+                                        Chamada
+                                    </h3>
+                                </li>
+                                <li class="tile">
+                                    <div class="tile-content">
+                                        <div class="tile-icon">
+                                            <i class="md md-info"/>
+                                        </div>
+                                        <div class="tile-text">
+                                            <h:outputLabel value="#{CallBean.detail.id}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tile">
+                                    <div class="tile-content">
+                                        <div class="tile-icon">
+                                            <i class="md md-label"/>
+                                        </div>
+                                        <div class="tile-text">
+                                            <h:outputLabel value="#{CallBean.detail.name}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tile">
+                                    <div class="tile-content">
+                                        <div class="tile-icon">
+                                            <i class="fa fa-exclamation"/>
+                                        </div>
+                                        <div class="tile-text">
+                                            <h:outputText styleClass="label label-warning" rendered="#{CallBean.detail.type.label == 'Bug'}" value="#{CallBean.detail.type.label}"/>
+                                            <h:outputText styleClass="label label-primary" rendered="#{CallBean.detail.type.label != 'Bug'}" value="#{CallBean.detail.type.label}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tile">
+                                    <div class="tile-content">
+                                        <div class="tile-icon">
+                                            <i class="md md-whatshot"/>
+                                        </div>
+                                        <div class="tile-text">
+                                            <h:outputText styleClass="label label-warning" rendered="#{CallBean.detail.priority.label == 'Alta'}" value="#{CallBean.detail.priority.label}"/>
+                                            <h:outputText styleClass="label label-primary" rendered="#{CallBean.detail.priority.label == 'Média'}" value="#{CallBean.detail.priority.label}"/>
+                                            <h:outputText styleClass="label label-success" rendered="#{CallBean.detail.priority.label == 'Baixa'}" value="#{CallBean.detail.priority.label}"/>
+                                            <h:outputText styleClass="label label-danger" rendered="#{CallBean.detail.priority.label == 'Imediato/urgente'}" value="#{CallBean.detail.priority.label}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tile">
+                                    <div class="tile-content">
+                                        <div class="tile-icon">
+                                            <i class="md md-visibility"/>
+                                        </div>
+                                        <div class="tile-text">
+                                            <h:outputText styleClass="label label-warning" rendered="#{CallBean.detail.status.label == 'Aguardando'}" value="#{CallBean.detail.status.label}"/>
+                                            <h:outputText styleClass="label label-primary" rendered="#{CallBean.detail.status.label == 'Em andamento'}" value="#{CallBean.detail.status.label}"/>
+                                            <h:outputText styleClass="label label-success" rendered="#{CallBean.detail.status.label == 'Fechado'}" value="#{CallBean.detail.status.label}"/>
+                                            <h:outputText styleClass="label label-danger" rendered="#{CallBean.detail.status.label == 'Cancelado'}" value="#{CallBean.detail.status.label}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3>
+                                        Informações
+                                    </h3>
+                                </li>
+                                <li class="tile">
+                                    <div class="tile-content">
+                                        <div class="tile-icon">
+                                            <i class="md md-person"/>
+                                        </div>
+                                        <div class="tile-text">
+                                            <h:outputLabel value="#{CallBean.detail.requestUser.name}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tile">
+                                    <div class="tile-content">
+                                        <div class="tile-icon">
+                                            <i class="md md-today"/>
+                                        </div>
+                                        <div class="tile-text">
+                                            <h:outputText styleClass="hidden-xs" value="#{CallBean.detail.open}">
+                                                <f:convertDateTime locale="pt,BR" dateStyle="long" pattern="dd/MM/yyyy HH:mm" />
+                                            </h:outputText>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tile">
+                                    <div class="tile-content">
+                                        <div class="tile-icon">
+                                            <i class="md md-autorenew"/>
+                                        </div>
+                                        <div class="tile-text">
+                                            <h:outputLabel value="#{CallBean.detail.version}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tile">
+                                    <div class="tile-content">
+                                        <div class="tile-icon">
+                                            <i class="md md-description"/>
+                                        </div>
+                                        <div class="tile-text">
+                                            <h:outputLabel value="#{CallBean.detail.description}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <ui:fragment rendered="#{CallBean.detail.user != null}">
+                                    <li>
+                                        <h3>
+                                            Solução
+                                        </h3>
+                                    </li>
+                                    <li class="tile">
+                                        <div class="tile-content">
+                                            <div class="tile-icon">
+                                                <i class="md md-person"/>
+                                            </div>
+                                            <div class="tile-text">
+                                                <h:outputLabel value="#{CallBean.detail.user.name}"/>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{CallBean.detail.solution != null}">
+                                    <li class="tile">
+                                        <div class="tile-content">
+                                            <div class="tile-icon">
+                                                <i class="md md-today"/>
+                                            </div>
+                                            <div class="tile-text">
+                                                <h:outputText styleClass="hidden-xs" value="#{CallBean.detail.close}">
+                                                    <f:convertDateTime locale="pt,BR" dateStyle="long" pattern="dd/MM/yyyy HH:mm" />
+                                                </h:outputText>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="tile">
+                                        <div class="tile-content">
+                                            <div class="tile-icon">
+                                                <i class="md md-done"/>
+                                            </div>
+                                            <div class="tile-text">
+                                                <h:outputLabel value="#{CallBean.detail.solution}"/>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ui:fragment>
+                            </ul>
+                        </div>
+                        <div class="card-actionbar">
+                            <div class="card-actionbar-row">
+                                <h:commandButton styleClass="btn btn-flat btn-primary ink-reaction" style="margin-right:10px;" value="Voltar" action="#{CallBean.back}"/>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+        <ui:include src="model/cancelModel.xhtml"/>
+        <ui:include src="model/finishModel.xhtml"/>
+        <ui:include src="model/deleteCallModel.xhtml"/>
+    </ui:define>
+</ui:composition>
+</html>
